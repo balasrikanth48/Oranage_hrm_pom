@@ -42,7 +42,7 @@ public class FunctionLibrary {
 	
 	public static void closeapplication()
 	{
-		driver.close();
+		driver.quit();
 	}
 
 
@@ -53,5 +53,7 @@ public class FunctionLibrary {
 		System.out.println(req);
 		return req;
 	}
+	
+	
 
 }

@@ -30,7 +30,7 @@ Workbook wb;
 	@SuppressWarnings("deprecation")
 	public String  getData(String Sname,int row,int coloumn)
 	{
-		String data="";
+		String data=" ";
 		
 		if (wb.getSheet(Sname).getRow(row).getCell(coloumn).getCellType()==Cell.CELL_TYPE_NUMERIC)
 		{
@@ -75,7 +75,7 @@ Workbook wb;
 			style.setFont(font);
 			cell.setCellStyle(style);
 		}
-		FileOutputStream fo=new FileOutputStream("E:\\Srikanth_82\\Orangehrm_POM\\TestOutput\\TestDataInput.xlsx");
+		FileOutputStream fo=new FileOutputStream("E:\\Srikanth_82\\Orangehrm_POM\\TestOutput\\TestData.xlsx");
 		wb.write(fo);
 		fo.close();
 		
@@ -93,7 +93,7 @@ Workbook wb;
 				
 			}
 		}
-		System.out.println("test case rows:"+testcaserow);
+//		System.out.println("test case rows:"+testcaserow);
 		return testcaserow;
 	}
 

@@ -23,6 +23,7 @@ public class DriverScript {
 	 static ExtentReports report;
 	 static ExtentTest test = null;
 	 static String status=null;
+		static HomePage hp;
 	
 	public static void main(String[] args) throws Exception
 	{
@@ -33,14 +34,14 @@ public class DriverScript {
 		{
 			if(ex.getData("MasterTestCases", i, 3).equalsIgnoreCase("Y"))
 			{
-				String testcaseid_mastersheet=ex.getData("MasterTestCases", i, 0);
+				String testcaseid_mastersheet=ex.getData("MasterTestCases", i,0);
 				String testcasename=ex.getData("MasterTestCases", i, 2);
-				report=new ExtentReports(System.getProperty("user.dir")+"\\Reports\\"+testcasename+"_"+FunctionLibrary.generateDate()+".html");
+				report=new ExtentReports("E:\\Srikanth_82\\Orangehrm_POM\\Reports\\"+testcasename+"_"+FunctionLibrary.generateDate()+".html");
 				
 				for (int j = 1; j <=ex.getrowcount(testcasename); j++) 
 				{
-					String StepDescription=ex.getData(testcasename, j, 1);
-					System.out.println("discription  :"+StepDescription);
+					String StepDescription=ex.getData(testcasename,j,1);
+					System.out.println("Description  :"+StepDescription);
 					String FunctionName=ex.getData(testcasename, j, 2);
 					test=report.startTest(testcasename);
 				try{
@@ -60,18 +61,38 @@ public class DriverScript {
 						test.log(LogStatus.INFO, StepDescription);
 					}else if(FunctionName.equalsIgnoreCase("logout"))
 					{
-						HomePage hp=new HomePage(driver);
+						hp=new HomePage(driver);
 						hp.Logout();
 						test.log(LogStatus.INFO, StepDescription);
 					}else if (FunctionName.equalsIgnoreCase("closeapplication")) 
 					{
 					FunctionLibrary.closeapplication();
 					test.log(LogStatus.INFO, StepDescription);
-				    }
+				    }else if(FunctionName.equalsIgnoreCase("userReg"))
+				    {
+				    	hp=new HomePage(driver);
+				    	hp.EmpREgistration(ex, testcaseid_mastersheet);
+				    	test.log(LogStatus.INFO, StepDescription);
+				    }else if(FunctionName.equalsIgnoreCase("empReg"))
+				    { 
+				    	hp=new HomePage(driver);
+				    	hp.AddUserRegistration(ex, testcaseid_mastersheet);
+				    	test.log(LogStatus.INFO, StepDescription);
+				    }else if (FunctionName.equalsIgnoreCase("capturedata")) {
+				    	hp=new HomePage(driver);
+				    	hp.capturedata();
+				    	test.log(LogStatus.INFO, StepDescription);
+					}else if (FunctionName.equalsIgnoreCase("tablevalidation"))
+					{
+						hp=new HomePage(driver);
+						hp.tablevalidation(driver);
+						test.log(LogStatus.INFO, StepDescription);
+					}
+					
 					ex.SetCellData(testcasename, j, 3, "PASS");
 					status="PASS";
 				}catch(Exception e){
-						
+						e.printStackTrace();	
 					  status="FAIL";
 					 ex.SetCellData(testcasename, j, 3, "FAIL");
 					 test.log(LogStatus.FAIL, testcasename);	
@@ -91,7 +112,7 @@ public class DriverScript {
 				 }
 			}else
 			{
-				ex.SetCellData("MasterTestCases", i, 4, "Not Excuted");
+				ex.SetCellData("MasterTestCases", i, 4, "NotExcuted");
 			}	
 		}
 	}
